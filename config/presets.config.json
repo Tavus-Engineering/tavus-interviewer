@@ -1,0 +1,14 @@
+{
+  "_comment": "Single interview preset. The demo runs this entry. References a Tavus persona and replica. `default_persona_id` is the reference Tavus persona to copy when no user-owned ID is configured — `npm run init` copies it into the user's Tavus account.",
+  "presets": [
+    {
+      "id": "starfall-lead-audition",
+      "title": "Starfall Lead",
+      "description": "A loose, playful casting audition for the lead in Starfall, a new sci-fi series — a few quick beats and a little improv with Julian, our AI casting director.",
+      "icon": "film",
+      "persona_id": "p735435f8c36",
+      "replica_id": "r92debe21318",
+      "default_persona_id": "p735435f8c36"
+    }
+  ]
+}

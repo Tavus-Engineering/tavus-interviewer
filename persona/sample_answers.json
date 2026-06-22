@@ -1,0 +1,9 @@
+{
+  "_comment": "Pre-canned actor answers per objective. Surfaced via the 'Inject sample answer' button in the dev inspector during a live call so demo runners can role-play without having to think up answers on the fly. Voice input still works normally — this is purely an additive shortcut. Keys are objective_name strings (matching what the persona on Tavus emits); the lookup also tries the name with/without the 'obj_' prefix. Add or rename to match your own persona's objective_names.",
+  "data": {
+    "intro": "Hey Julian, thanks for having me. I'm Sam — I've been acting for about eight years, mostly stage and a couple of indie features. What pulled me to this one is the captain: someone who has to hold a crew together when everything's falling apart, but underneath is just as scared as everyone else. I love a lead who's strong and cracked at the same time.",
+    "coldread": "Then we don't waste them. Reroute everything to the forward shield. ... I know. Trust me, Nova. We're getting them home.",
+    "character": "Honestly, the dream is something like Ripley in Alien — somebody ordinary who turns out to be the only one with the nerve to do the hard thing. I'd play the Starfall lead the same way: not a hero who knows he's a hero, just a person who keeps choosing the crew over himself until it costs him something real. I want the audience unsure whether he'll make it.",
+    "closing": "Yeah, one thing — is the captain written as the emotional anchor of the ensemble, or more of a lone wolf at the center? That'd change how much I hold back early on. But that's it, this was genuinely a blast — thanks for making it feel like play."
+  }
+}
