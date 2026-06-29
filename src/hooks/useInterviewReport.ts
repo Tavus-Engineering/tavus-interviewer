@@ -8,8 +8,9 @@
  * `GET /api/conversation/get?...` (verbose) until that event appears, then parse
  * its `request.body` into an InterviewAnalysis.
  *
- * The post-call tool runs a few seconds *after* the call concludes, so this
- * polls on an interval up to a timeout rather than fetching once.
+ * The post-call tool runs *after* the call concludes and can take a couple of
+ * minutes to produce the report, so this polls on an interval up to a timeout
+ * (MAX_WAIT_MS) rather than fetching once.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -17,7 +18,9 @@ import { apiGet } from "@/lib/tavus/client";
 import type { InterviewAnalysis } from "@/types/interview";
 
 const POLL_INTERVAL_MS = 3000;
-const MAX_WAIT_MS = 90_000;
+// The Tavus post-call tool typically takes ~2–2.5 min to run after the call
+// ends, so we wait up to 4 min before surfacing the error (Try again restarts).
+const MAX_WAIT_MS = 240_000;
 const POST_CALL_EVENT = "application.post_call_action_executed";
 const TOOL_NAME = "submit_audition_report";
 
@@ -108,12 +111,13 @@ function buildAnalysis(b: Record<string, unknown>): InterviewAnalysis {
 /** Finds the post-call report event in a verbose conversation payload. */
 function extractReport(conv: VerboseConversation): InterviewAnalysis | null {
   const events = conv.events ?? [];
-  const event = events.find((e) => {
-    const props = e.properties ?? {};
-    return (
-      e.event_type === POST_CALL_EVENT || props.tool_name === TOOL_NAME
-    );
-  });
+  // Each attached post-call action emits its own post_call event, so narrow to
+  // those first, then prefer the one for our tool — falling back to the latest
+  // post-call event when the tool name differs (it can vary per account).
+  const postCall = events.filter((e) => e.event_type === POST_CALL_EVENT);
+  const event =
+    postCall.find((e) => e.properties?.tool_name === TOOL_NAME) ??
+    postCall[postCall.length - 1];
   if (!event) return null;
   const props = event.properties ?? {};
   const request = (props.request ?? {}) as { body?: unknown };
