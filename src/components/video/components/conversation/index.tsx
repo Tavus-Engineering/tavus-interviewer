@@ -93,8 +93,10 @@ const MainVideo = React.memo(({ showPresentation = true }: { showPresentation?: 
 		);
 	}
 
-	// While a slide is being presented, show its screenVideo track; otherwise
-	// show the replica's camera. Replica audio keeps playing either way.
+	// While a slide is being presented, the slide's screenVideo track becomes
+	// the main surface and the replica's camera stays visible as a corner PiP so
+	// the interviewer never disappears mid-read. Otherwise the replica's camera
+	// is the main surface. Replica audio keeps playing in every case.
 	return (
 		<div
 			className={`${styles.mainVideoContainer} ${slideScreen ? styles.mainVideoContainerScreenSharing : ''}`}
@@ -107,6 +109,14 @@ const MainVideo = React.memo(({ showPresentation = true }: { showPresentation?: 
 				${slideScreen ? styles.mainVideoScreenSharing : ''}
 				${(!slideScreen && videoState.isOff) ? styles.mainVideoHidden : ''}`}
 			/>
+			{slideScreen && !videoState.isOff && (
+				<DailyVideo
+					automirror
+					sessionId={replicaId}
+					type="video"
+					className={styles.replicaPip}
+				/>
+			)}
 			<DailyAudioTrack sessionId={replicaId} />
 		</div>
 	);

@@ -21,7 +21,7 @@ src/
 │   │   ├── VideoProvider.tsx     Wraps @daily-co/daily-react DailyProvider
 │   │   ├── ConversationView.tsx  Layout wrapper around the scaffolded Conversation
 │   │   ├── InteractionBus.tsx    Dispatches `app-message` events to handlers
-│   │   ├── components/           Daily-provider, conversation (renders replica camera, or the replica's screenVideo slides when the presentation skill is active), audio-wave
+│   │   ├── components/           Daily-provider, conversation (renders replica camera; when the presentation skill is active, the screenVideo slides become the main surface with the replica camera as a corner PiP), audio-wave
 │   │   └── hooks/                use-call, use-local-screenshare, use-replica-ids
 │   ├── cvi/                   cvi-ui CLI–installed components
 │   │   └── components/
