@@ -7,18 +7,13 @@
  *   3. closed-captions toggle  — active state = TranscriptPanel open
  *   4. End call (text button)
  *
- * Noise cancellation is enabled silently on `joined-meeting` (Daily input
- * processor set to `noise-cancellation`) — there is no user-facing toggle.
- *
  * Strict monochrome — 1px black border, white bg, inverts to filled black on
  * active state. No red destructive variant for End call.
  */
 
-import { useCallback } from "react";
 import {
   useAudioTrack,
   useDaily,
-  useDailyEvent,
   useLocalSessionId,
   useVideoTrack,
 } from "@daily-co/daily-react";
@@ -198,22 +193,6 @@ export function CallControlBar({
   // desktop keeps the tighter 38px chrome.
   const btnBase = isMobile ? { ...baseBtn, width: 44, height: 44 } : baseBtn;
   const btnActive = isMobile ? { ...activeBtn, width: 44, height: 44 } : activeBtn;
-
-  // Noise cancellation is applied silently on `joined-meeting`. No user
-  // toggle — this is the desired default for the entire call.
-  useDailyEvent(
-    "joined-meeting",
-    useCallback(() => {
-      if (!daily) return;
-      daily
-        .updateInputSettings({
-          audio: { processor: { type: "noise-cancellation" } },
-        })
-        .catch((err) => {
-          console.warn("[CallControlBar] noise-cancellation init failed:", err);
-        });
-    }, [daily])
-  );
 
   const handleToggleMic = () => {
     if (!daily) return;

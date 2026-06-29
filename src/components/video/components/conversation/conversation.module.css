@@ -225,3 +225,32 @@
 	bottom: 0.5rem;
 	right: 0.5rem;
 }
+
+/* Replica camera shown as a corner PiP while a slide is presented, so the
+   interviewer stays on screen. Mirrors the bottom-left self-view, on the right. */
+.replicaPip {
+	position: absolute;
+	bottom: 5rem;
+	right: 1rem;
+	width: 11rem;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+	border-radius: 1rem;
+	overflow: hidden;
+	background: rgba(2, 6, 23, 0.3);
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+	z-index: 10;
+}
+
+@media (min-width: 768px) {
+	.replicaPip {
+		bottom: 1rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.replicaPip {
+		width: 7rem;
+		border-radius: 0.6rem;
+	}
+}

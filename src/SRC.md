@@ -21,13 +21,13 @@ src/
 │   │   ├── VideoProvider.tsx     Wraps @daily-co/daily-react DailyProvider
 │   │   ├── ConversationView.tsx  Layout wrapper around the scaffolded Conversation
 │   │   ├── InteractionBus.tsx    Dispatches `app-message` events to handlers
-│   │   ├── components/           Daily-provider, conversation (renders replica camera, or the replica's screenVideo slides when the presentation skill is active), audio-wave
+│   │   ├── components/           Daily-provider, conversation (renders replica camera; when the presentation skill is active, the screenVideo slides become the main surface with the replica camera as a corner PiP), audio-wave
 │   │   └── hooks/                use-call, use-local-screenshare, use-replica-ids
 │   ├── cvi/                   cvi-ui CLI–installed components
 │   │   └── components/
 │   │       └── magic-canvas/     Magic Canvas (cvi-ui 0.0.4-beta.1) — vendored CVI component; not mounted in this template
 │   ├── interview/             Live-interview overlays
-│   │   ├── CallControlBar.tsx       4-button bottom bar (mic / camera / CC / End call) — noise cancellation applied silently on join, no toggle
+│   │   ├── CallControlBar.tsx       4-button bottom bar (mic / camera / CC / End call)
 │   │   ├── ObjectiveProgressBar.tsx Compact "objective N/total" indicator; humanizes the active objective_name (prefixes stripped)
 │   │   ├── TranscriptPanel.tsx      In-flow side panel beside video (video shrinks): selectable transcript + Copy-all button + text-message input
 │   │   └── GuardrailToast.tsx       Floating toast on guardrail violation

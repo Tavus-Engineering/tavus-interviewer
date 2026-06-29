@@ -73,7 +73,7 @@ The Vite dev server serves the React SPA. The `api/` directory maps to Vercel-st
 - **FSM transitions**: `INTRO → QUESTIONING` (first objective completes) and eventually `→ RESULTS` (user ends call, `end_conversation` tool fires, or the 10-minute timer hits the cap)
 - The title bar shows a live `MM:SS / 10:00` timer; at 10:00 the UI triggers a graceful leave at the same instant Tavus force-ends the call via `max_call_duration: 600`
 - As each objective completes, CVI fires `conversation.objective.completed` events. The FloatingInspector overlay flips entries from pending → active → done.
-- The 4-button CallControlBar overlays the video: mic, camera, CC (toggles the TranscriptPanel), End call. Noise cancellation is applied automatically on `joined-meeting` (Daily input processor set to `noise-cancellation`) — there is no user-facing toggle. No red destructive variant for End call.
+- The 4-button CallControlBar overlays the video: mic, camera, CC (toggles the TranscriptPanel), End call. No red destructive variant for End call.
 - The TranscriptPanel sits beside the video as an in-flow flex item when CC is toggled — the video shrinks to make room (no overlay). Per Tavus docs, both user and replica text come from `conversation.utterance.streaming` (progressive per-turn, keyed by `inference_id`, accumulated text replaces in place so interruptions display correctly). Entries are ordered by Tavus' `seq` (globally monotonic). The transcript is selectable, has a "Copy all" button next to the close ×, and an inline text input emits a `conversation.respond` interaction.
 - Raven perception runs in the background:
   - Ambient awareness queries feed real-time observations to the LLM

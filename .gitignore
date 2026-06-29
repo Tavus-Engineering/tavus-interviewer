@@ -16,3 +16,4 @@ api/**/*.js
 api/**/*.d.ts
 DESIGN_SYSTEM.md
 docs/TAVUS_DEV_PORTAL_2026_DESIGN_SPEC.md
+.env*.local
