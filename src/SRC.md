@@ -27,7 +27,7 @@ src/
 │   │   └── components/
 │   │       └── magic-canvas/     Magic Canvas (cvi-ui 0.0.4-beta.1) — vendored CVI component; not mounted in this template
 │   ├── interview/             Live-interview overlays
-│   │   ├── CallControlBar.tsx       4-button bottom bar (mic / camera / CC / End call) — noise cancellation applied silently on join, no toggle
+│   │   ├── CallControlBar.tsx       4-button bottom bar (mic / camera / CC / End call)
 │   │   ├── ObjectiveProgressBar.tsx Compact "objective N/total" indicator; humanizes the active objective_name (prefixes stripped)
 │   │   ├── TranscriptPanel.tsx      In-flow side panel beside video (video shrinks): selectable transcript + Copy-all button + text-message input
 │   │   └── GuardrailToast.tsx       Floating toast on guardrail violation

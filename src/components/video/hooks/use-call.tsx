@@ -24,13 +24,6 @@ export const useCall = (): {
 				url: url,
 				...(videoDeviceId && { videoSource: videoDeviceId }),
 				...(audioDeviceId && { audioSource: audioDeviceId }),
-				inputSettings: {
-					audio: {
-						processor: {
-							type: "noise-cancellation",
-						},
-					},
-				},
 			});
 			return true;
 		},

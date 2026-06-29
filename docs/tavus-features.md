@@ -79,10 +79,6 @@ Conversations are also created with `properties.max_call_duration: 600` (in seco
 
 Inside the TranscriptPanel, the user can type a message. The panel emits a `conversation.respond` interaction via `daily.sendAppMessage`, and the replica handles it as if the user had spoken.
 
-## Noise Cancellation
-
-Daily's audio processor is set to `noise-cancellation` automatically on `joined-meeting` via a `daily.updateInputSettings` call mounted in the CallControlBar. There is no user-facing toggle — noise cancellation is applied silently as the desired default for the entire call.
-
 ## Conversational Flow (Sparrow)
 
 Turn-taking is managed by Sparrow:
