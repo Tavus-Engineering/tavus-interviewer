@@ -15,7 +15,7 @@ Open `.env` and fill in the values:
 
 | Variable | Required | What it is | Where to get it |
 |---|---|---|---|
-| `TAVUS_API_KEY` | Yes | Server-side Tavus API key | [platform.tavus.io/api-keys](https://platform.tavus.io/api-keys) |
+| `TAVUS_API_KEY` | Yes | Server-side Tavus API key | [maker.tavus.io/dev/api-keys](https://maker.tavus.io/dev/api-keys) |
 
 The PAL and face IDs are not env vars — they live in each preset's `persona_id`/`replica_id` in `config/presets.config.json`.
 
