@@ -27,12 +27,12 @@ import { useSendAppMessage } from '../../hooks/cvi-events-hooks';
 // duplicated here because index.tsx imports this module (no circular import).
 const MODEL_CONTEXT_RELAY_INTERVAL_MS = 1000;
 
-// SoT decision 17 (PROD-3246): after a successful `submit` interaction, hold
-// the card for this long before completing/removing it, so the component's
-// submitted confirmation ("Sent.") is actually visible instead of lasting only
-// for the POST round-trip. Mirrors SUBMIT_CONFIRMATION_CLEAR_DELAY_MS in
-// magic-canvas-apps src/components/confirmation.ts; the two must move
-// together, but they cannot share an import across repos today (PROD-3238).
+// After a successful `submit` interaction, hold the card for this long before
+// completing/removing it, so the component's submitted confirmation ("Sent.")
+// is actually visible instead of lasting only for the POST round-trip. Mirrors
+// SUBMIT_CONFIRMATION_CLEAR_DELAY_MS in magic-canvas-apps
+// src/components/confirmation.ts; the two must move together, but they cannot
+// share an import across repos today.
 // Skip/dismiss/clear stay instant, and failed POSTs never complete at all.
 export const CANVAS_SUBMIT_TEARDOWN_DELAY_MS = 1200;
 
