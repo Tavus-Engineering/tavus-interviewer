@@ -11,11 +11,11 @@ This folder contains Node.js scripts that run outside the browser — validation
 
 > **Setup**: Copy `.env.example` to `.env`, fill in the values, set `persona_id` / `replica_id` in `config/presets.config.json`, then run `npm run dev`. See the root `README.md` for the variable reference.
 
-> **Personas are managed on Tavus directly.** The persona (system prompt, objectives, guardrails, layers) is created and edited via the [Tavus dashboard](https://platform.tavus.io/personas) or the Tavus API — the deployed persona is the source of truth. Point a preset's `persona_id` in `config/presets.config.json` at it. There is no local persona-deployment script.
+> **PALs are managed on Tavus directly.** The PAL (system prompt, objectives, guardrails, layers) is created and edited via the [Tavus dashboard](https://maker.tavus.io/dev/pals) or the Tavus API — the deployed PAL is the source of truth. Point a preset's `persona_id` in `config/presets.config.json` at it. There is no local PAL-deployment script.
 
 ## validate-config.ts — Config Validation
 
-Validates `config/presets.config.json` against its Zod schema. Other persona-owned data (objectives, guardrails, perception queries) lives on the Tavus API and isn't validated here.
+Validates `config/presets.config.json` against its Zod schema. Other PAL-owned data (objectives, guardrails, perception queries) lives on the Tavus API and isn't validated here.
 
 ### What it does
 
@@ -51,7 +51,7 @@ Validates that required environment variables are set before the dev server star
 |----------|----------|-------|
 | `TAVUS_API_KEY` | Yes | Must be set — see `.env.example` |
 
-The persona and replica IDs are not env vars — they live in each preset's `persona_id`/`replica_id` in `config/presets.config.json`.
+The PAL and face IDs are not env vars — they live in each preset's `persona_id`/`replica_id` in `config/presets.config.json`.
 
 ### When to modify
 
@@ -62,7 +62,7 @@ The persona and replica IDs are not env vars — they live in each preset's `per
 
 - **`config/presets.config.json`** — `validate-config.ts` validates this file.
 - **`src/lib/config/schema.ts`** — Zod schema shared between the validation script and the runtime config loader
-- **`config/presets.config.json`** — holds each preset's `persona_id` / `replica_id`, pointing at a persona in your Tavus account
+- **`config/presets.config.json`** — holds each preset's `persona_id` / `replica_id`, pointing at a PAL in your Tavus account
 
 ## Adding a New Script
 

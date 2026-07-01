@@ -9,7 +9,7 @@ This folder contains architecture and customization documentation for the fronte
 | File | What it covers |
 |------|---------------|
 | [architecture.md](architecture.md) | Screen flow, FSM states, data flow diagram, key architectural principles |
-| [customization.md](customization.md) | Step-by-step instructions for common changes (role, questions, perception, replica) |
+| [customization.md](customization.md) | Step-by-step instructions for common changes (role, questions, perception, face) |
 | [tavus-features.md](tavus-features.md) | Inventory of which Tavus platform features are used and how (CVI, objectives, guardrails, Raven, Sparrow) |
 | [walkthrough.md](walkthrough.md) | End-to-end walkthrough from `git clone` to a completed conversation with results |
 

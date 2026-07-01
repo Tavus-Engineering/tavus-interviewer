@@ -15,13 +15,13 @@ src/
 │   ├── LobbyScreen.tsx         Entry screen — two-column customer intro + hair-check: welcome eyebrow / role heading / 10-min description / CTA on the left, live camera preview + device pickers (camera/mic/audio output) on the right
 │   ├── InterviewScreen.tsx     Live CVI session in monochrome window-frame; FloatingInspector overlay (always rendered)
 │   ├── ResultsScreen.tsx       Thank-you card ("That's a wrap") — tells the actor the casting team will review the tape, with a "View report" button that opens the in-app casting report
-│   └── ReportScreen.tsx        In-app casting report — score row (Overall / Craft / Presence / Story structure), summary, perception signals, story breakdown (STAR), transcript key-moment highlights, Markdown export. Data from the persona's `submit_audition_report` post-call tool via useInterviewReport
+│   └── ReportScreen.tsx        In-app casting report — score row (Overall / Craft / Presence / Story structure), summary, perception signals, story breakdown (STAR), transcript key-moment highlights, Markdown export. Data from the PAL's `submit_audition_report` post-call tool via useInterviewReport
 ├── components/
 │   ├── video/                 Tavus CVI integration (Daily.js wrappers)
 │   │   ├── VideoProvider.tsx     Wraps @daily-co/daily-react DailyProvider
 │   │   ├── ConversationView.tsx  Layout wrapper around the scaffolded Conversation
 │   │   ├── InteractionBus.tsx    Dispatches `app-message` events to handlers
-│   │   ├── components/           Daily-provider, conversation (renders replica camera; when the presentation skill is active, the screenVideo slides become the main surface with the replica camera as a corner PiP), audio-wave
+│   │   ├── components/           Daily-provider, conversation (renders face camera; when the presentation skill is active, the screenVideo slides become the main surface with the face camera as a corner PiP), audio-wave
 │   │   └── hooks/                use-call, use-local-screenshare, use-replica-ids
 │   ├── cvi/                   cvi-ui CLI–installed components
 │   │   └── components/
@@ -48,12 +48,12 @@ src/
 │   ├── useInterviewReport.ts     Polls GET /api/conversation/get (verbose) after the call for the `application.post_call_action_executed` event and parses the `submit_audition_report` tool's body into the casting report; exposes retry() to re-pull if the tool lands late
 │   ├── useObjectiveEvents.ts     conversation.objective.{activated,completed} → callbacks
 │   ├── useToolCallEvents.ts      conversation.{tool_call,perception_tool_call} → captured-tool callback
-│   ├── useUtteranceEvents.ts     conversation.utterance.streaming for BOTH user + replica (keyed by inference_id, ordered by seq) → unified running transcript. Also extracts Raven awareness fields off the single-shot conversation.utterance (its speech payload is ignored).
+│   ├── useUtteranceEvents.ts     conversation.utterance.streaming for BOTH user + face (keyed by inference_id, ordered by seq) → unified running transcript. Also extracts Raven awareness fields off the single-shot conversation.utterance (its speech payload is ignored).
 │   ├── useGuardrailEvents.ts     conversation.perception_tool_call → guardrail trigger + toast
-│   ├── useGuardrailResponder.ts  Drives the replica's in-character reply to an actionable guardrail via conversation.respond
+│   ├── useGuardrailResponder.ts  Drives the face's in-character reply to an actionable guardrail via conversation.respond
 │   ├── usePerceptionAnalysis.ts  conversation.perception-analysis → structured observations
 │   ├── useSparrowMetrics.ts      Sparrow turn-taking stats (turns / interruptions) for the vitals strip
-│   ├── useSpeakingState.ts       Tracks who's speaking (replica / you / silence) for the vitals strip
+│   ├── useSpeakingState.ts       Tracks who's speaking (face / you / silence) for the vitals strip
 │   ├── useEventLog.ts            Accumulates CVI events for the Events console (consecutive heartbeats folded)
 │   ├── useElapsedTime.ts         MM:SS elapsed-time counter for the title-bar timer
 │   ├── useDevPanel.ts            Persists FloatingInspector open/closed state + active tab in localStorage
@@ -121,7 +121,7 @@ Frontend code in `src/lib/tavus/` calls `/api/*` endpoints, never the Tavus API 
 
 ## What to Change for a New Use Case
 
-For most use case changes (different role, different questions, different persona), you **don't need to modify any frontend code**. The persona, objectives, guardrails, and config files drive the experience. See the concept docs in `persona/` and `config/`.
+For most use case changes (different role, different questions, different PAL), you **don't need to modify any frontend code**. The PAL, objectives, guardrails, and config files drive the experience. See the concept docs in `persona/` and `config/`.
 
 You'd only modify `src/` if you need to:
 - Add or remove screens (change the FSM in `useInterviewState` and `App.tsx`)

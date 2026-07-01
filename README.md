@@ -1,6 +1,6 @@
 # AI Interviewer Experience
 
-A forkable starter kit for any structured video conversation, built on [Tavus](https://tavus.io). Clone it, reconfigure the persona, and ship your own version — AI interviewer, sales coach, HR screener, customer support agent, or anything else that's a guided back-and-forth with a video-first AI.
+A forkable starter kit for any structured video conversation, built on [Tavus](https://tavus.io). Clone it, reconfigure the PAL, and ship your own version — AI interviewer, sales coach, HR screener, customer support agent, or anything else that's a guided back-and-forth with a video-first AI.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FTavus-Engineering%2Ftavus-interviewer&project-name=tavus-interviewer&repository-name=tavus-interviewer&env=TAVUS_API_KEY&envDescription=Your%20Tavus%20API%20key%20%28required%29.&envLink=https%3A%2F%2Fplatform.tavus.io%2Fapi-keys)
 
@@ -12,8 +12,8 @@ If you're new to Tavus, here's a quick glossary of terms used throughout the rep
 
 | Term | What it means |
 |------|--------------|
-| **Persona** | The AI's complete identity — system prompt, behavior rules, and conversation structure. Created via the Tavus API. |
-| **Replica** | The AI's face and voice — a video avatar trained from real footage. You pick one during setup. |
+| **PAL** (Personified Application Layer) | The AI's complete identity — system prompt, behavior rules, and conversation structure. Created via the Tavus API. |
+| **Face** | The AI's on-screen likeness and voice — a video avatar trained from real footage. You pick one during setup. |
 | **Objective** | A single step in the conversation (e.g., "Ask about prior experience"). Objectives chain together to form the interview flow. |
 | **Guardrail** | A behavioral constraint (e.g., "Never reveal the scoring rubric"). Keeps the AI on track. |
 | **Raven** | Tavus's perception model. Observes the actor's eye contact, engagement, and body language via the camera. |
@@ -25,7 +25,7 @@ If you're new to Tavus, here's a quick glossary of terms used throughout the rep
 - **Real-time video audition** — a Tavus-powered AI that sees, hears, and responds to the actor in real time
 - **Structured conversation flow** — objectives guide the audition step by step (intro, cold read, character beat, closing)
 - **Hair-check lobby** — live camera preview via a single `getUserMedia({video, audio})` call (one combined browser permission prompt) and dropdown selectors for camera, microphone, and audio output before joining the call
-- **Live transcript + text input** — closed-captions panel with the full running transcript (selectable + "Copy all" button) and an inline text-message input (sends `conversation.respond`). Replica text streams in progressively via `conversation.utterance.streaming`; user text arrives once on speech-end via `conversation.utterance`. The video shrinks to make room when CC is open (no overlay).
+- **Live transcript + text input** — closed-captions panel with the full running transcript (selectable + "Copy all" button) and an inline text-message input (sends `conversation.respond`). Face text streams in progressively via `conversation.utterance.streaming`; user text arrives once on speech-end via `conversation.utterance`. The video shrinks to make room when CC is open (no overlay).
 - **10-minute hard cap** — every conversation is created with `properties.max_call_duration: 600` and the title bar shows a live `MM:SS / 10:00` timer; the call auto-leaves at 10:00
 - **Perception analysis** — Tavus Raven observes eye contact, engagement, and body language throughout the conversation
 - **A preloaded audition preset** that works out of the box (Starfall Lead — a casting audition with Julian, an AI casting director)
@@ -65,9 +65,9 @@ Open `.env` and set the following:
 |---|---|---|---|
 | `TAVUS_API_KEY` | Yes | Your Tavus API key (used server-side; never bundled into the browser) | [platform.tavus.io/api-keys](https://platform.tavus.io/api-keys) |
 
-> The persona and replica IDs are no longer environment variables. They live in `config/presets.config.json` (each preset's `persona_id` and `replica_id`), which is committed to the repo.
+> The PAL and face IDs are no longer environment variables. They live in `config/presets.config.json` (each preset's `persona_id` and `replica_id`), which is committed to the repo.
 
-> **One-time persona setup**: After setting `TAVUS_API_KEY` in `.env`, run `npm run init` to copy a reference persona to your account. The copy command writes the new `persona_id` into `config/presets.config.json` automatically. (Skip this if the preset's `persona_id` is already configured.) You can also point the preset's `persona_id` at any persona you've created in the [Tavus dashboard](https://platform.tavus.io/personas).
+> **One-time PAL setup**: After setting `TAVUS_API_KEY` in `.env`, run `npm run init` to copy a reference PAL to your account. The copy command writes the new `persona_id` into `config/presets.config.json` automatically. (Skip this if the preset's `persona_id` is already configured.) You can also point the preset's `persona_id` at any PAL you've created in the [Tavus dashboard](https://maker.tavus.io/dev/pals).
 
 ### 3. Start the dev server
 
@@ -83,7 +83,7 @@ Once the app is running, here's what to expect:
 
 1. **Lobby** — the entry screen, showing the role you're auditioning for and a short description of the 10-minute audition, alongside the hair-check: live camera preview plus camera, microphone, and audio output dropdowns. The conversation is created in the background while you pick devices. The browser will ask for camera + microphone permission once (single combined prompt) — click **Allow**, then click **I'm ready, let's play** when you want to join.
 2. **Join** — clicking "I'm ready, let's play" connects you to the Tavus conversation that was created on lobby entry (`enable_closed_captions: true` + `max_call_duration: 600` set server-side).
-3. **Audition** — the AI replica appears and begins the audition. The title bar shows a live `MM:SS / 10:00` timer; the call auto-leaves when it hits 10:00. The 4-button control bar (mic / camera / CC / End call) is the only chrome. Read naturally — Raven observes your engagement, eye contact, and body language in real time. A right-docked, collapsible Developer Inspector panel is always rendered (it boots collapsed as a small terminal-style toggle, and docks full-height against the right edge when expanded). Its always-visible Live State vitals strip shows status, elapsed time, who's speaking, objective progress, and a guardrail counter; an Inspector tab shows live objectives, guardrails, tools, and Raven perception, and an Events tab shows a severity-colored CVI event console. The CC button opens the live transcript panel beside the video (the video shrinks to make room) — text is selectable, has a "Copy all" button, and an inline input lets you type a message.
+3. **Audition** — the AI face appears and begins the audition. The title bar shows a live `MM:SS / 10:00` timer; the call auto-leaves when it hits 10:00. The 4-button control bar (mic / camera / CC / End call) is the only chrome. Read naturally — Raven observes your engagement, eye contact, and body language in real time. A right-docked, collapsible Developer Inspector panel is always rendered (it boots collapsed as a small terminal-style toggle, and docks full-height against the right edge when expanded). Its always-visible Live State vitals strip shows status, elapsed time, who's speaking, objective progress, and a guardrail counter; an Inspector tab shows live objectives, guardrails, tools, and Raven perception, and an Events tab shows a severity-colored CVI event console. The CC button opens the live transcript panel beside the video (the video shrinks to make room) — text is selectable, has a "Copy all" button, and an inline input lets you type a message.
 4. **Results** — when the audition ends, you'll see a thank-you card ("That's a wrap. Thanks for playing.") letting the actor know the casting team will sit with the tape and circle back. A **View report** button opens an in-app casting report.
 
 > **Tip**: The first audition takes about 3-5 minutes. Try it end-to-end before customizing anything — it helps you understand what each config file actually controls.
@@ -117,7 +117,7 @@ I just cloned the tavus-interviewer repo — a Tavus-powered AI interviewer
 built with React + Vite. I need your help customizing it.
 
 Key context:
-- The persona (identity, objectives, guardrails) is managed on Tavus; config/presets.config.json points at it by persona_id
+- The PAL (identity, objectives, guardrails) is managed on Tavus; config/presets.config.json points at it by persona_id
 - config/ holds the interview presets
 - api/ is the serverless proxy layer that keeps API keys server-side
 - Every folder has a .md file explaining its contents
@@ -161,7 +161,7 @@ Please:
 1. Replace the preloaded interviews in config/presets.config.json with ones
    that fit my use case
 2. Keep the API proxy layer (api/) and Tavus integration intact — only the
-   persona config needs to change
+   PAL config needs to change
 3. Don't touch .env — I'll set TAVUS_API_KEY myself after deploying.
    The persona_id and replica_id live in config/presets.config.json
 
@@ -175,7 +175,7 @@ v0 and Lovable will NOT have your Tavus API key. After the AI edits are merged b
 - **v0**: use the **Environment Variables** panel to set `TAVUS_API_KEY`, then deploy to Vercel. The `persona_id`/`replica_id` ship in the committed `config/presets.config.json`, so they are not deployment env vars.
 - **Lovable**: set env vars in **Project Settings → Secrets**, then use the built-in Vercel deploy button.
 
-> **Tip**: You can clone your fork locally, set `TAVUS_API_KEY` in `.env`, run `npm run init` to copy a reference persona into your account, then commit the updated `config/presets.config.json`. v0/Lovable will pick it up on the next sync.
+> **Tip**: You can clone your fork locally, set `TAVUS_API_KEY` in `.env`, run `npm run init` to copy a reference PAL into your account, then commit the updated `config/presets.config.json`. v0/Lovable will pick it up on the next sync.
 
 ## Preloaded Audition
 
@@ -191,9 +191,9 @@ The demo runs the first preset in this file (`presets[0]`). Each preset just nee
 
 Edit `config/presets.config.json` to change the active interview preset. The app uses `presets[0]` and renders its `title` as the role on the LobbyScreen + InterviewScreen.
 
-### Configure your own persona
+### Configure your own PAL
 
-Create or edit a persona in the [Tavus dashboard](https://platform.tavus.io/personas) (system prompt, objectives, guardrails, layers), then drop its `persona_id` and `replica_id` into `config/presets.config.json` to add or replace an interviewer preset. The app fetches the persona's objectives, guardrails, and tools live at runtime — nothing local to keep in sync.
+Create or edit a PAL in the [Tavus dashboard](https://maker.tavus.io/dev/pals) (system prompt, objectives, guardrails, layers), then drop its `persona_id` and `replica_id` into `config/presets.config.json` to add or replace an interviewer preset. The app fetches the PAL's objectives, guardrails, and tools live at runtime — nothing local to keep in sync.
 
 ## Deployment
 
@@ -221,10 +221,10 @@ For other platforms, adapt `api/*.ts` to your serverless runtime or add a lightw
 |---|---|---|
 | `No .env file found` | Haven't created `.env` yet | Copy `.env.example` to `.env` and fill in values |
 | `Missing required: TAVUS_API_KEY` | `.env` exists but key is empty | Add your key to `.env` (see [platform.tavus.io/api-keys](https://platform.tavus.io/api-keys)) |
-| Conversation won't start / inspector shows no objectives | Preset's `persona_id` not set correctly | Verify `presets[0].persona_id` in `config/presets.config.json` — pick a persona at [platform.tavus.io/personas](https://platform.tavus.io/personas) and paste its ID in (or run `npm run init` to copy a reference persona) |
+| Conversation won't start / inspector shows no objectives | Preset's `persona_id` not set correctly | Verify `presets[0].persona_id` in `config/presets.config.json` — pick a PAL at [maker.tavus.io/dev/pals](https://maker.tavus.io/dev/pals) and paste its ID in (or run `npm run init` to copy a reference PAL) |
 | `Tavus API error 401` | Invalid API key | Verify your key at [platform.tavus.io/api-keys](https://platform.tavus.io/api-keys) |
 | Camera/mic not working | Browser permissions blocked | Click the lock/camera icon in the address bar and allow access. HTTPS is required in production. |
-| Inspector shows no objectives | Persona's `objectives_id` points to deleted/missing objectives, or persona ID is wrong | Verify the persona in the Tavus dashboard and that the preset's `persona_id` in `config/presets.config.json` is correct |
+| Inspector shows no objectives | PAL's `objectives_id` points to deleted/missing objectives, or PAL ID is wrong | Verify the PAL in the Tavus dashboard and that the preset's `persona_id` in `config/presets.config.json` is correct |
 
 ## Available Scripts
 
@@ -235,7 +235,7 @@ For other platforms, adapt `api/*.ts` to your serverless runtime or add a lightw
 | `npm run preview` | Preview the production build locally |
 | `npm run validate` | Validate config files (Zod schemas + cross-file consistency) |
 | `npm run check-env` | Verify required environment variables are set |
-| `npm run init` | *(Optional)* Copy a reference persona into your Tavus account and write its `persona_id` into the preset |
+| `npm run init` | *(Optional)* Copy a reference PAL into your Tavus account and write its `persona_id` into the preset |
 
 ## Project Structure
 
@@ -263,9 +263,9 @@ For other platforms, adapt `api/*.ts` to your serverless runtime or add a lightw
 
 Every folder contains a `.md` file that explains the concept behind it. An AI agent (or developer) can drop into any folder, read the doc, and understand what that piece does, why it exists, and how to modify it.
 
-### Persona (`persona/`)
+### PAL (`persona/`)
 
-The persona is the AI's complete identity — who it is, what it does, and what it won't do. It's managed directly on Tavus (the [dashboard](https://platform.tavus.io/personas) or the Tavus API); see [persona/README.md](persona/README.md). The app references it by `persona_id` and fetches its objectives, guardrails, and tools live at runtime. Concepts: [Objectives](https://docs.tavus.io/sections/conversational-video-interface/persona/objectives), [Guardrails](https://docs.tavus.io/sections/conversational-video-interface/guardrails). The app's per-guardrail reactions live in `src/lib/guardrailActions.ts`.
+The PAL is the AI's complete identity — who it is, what it does, and what it won't do. It's managed directly on Tavus (the [dashboard](https://maker.tavus.io/dev/pals) or the Tavus API); see [persona/README.md](persona/README.md). The app references it by `persona_id` and fetches its objectives, guardrails, and tools live at runtime. Concepts: [Objectives](https://docs.tavus.io/sections/conversational-video-interface/pal/objectives), [Guardrails](https://docs.tavus.io/sections/conversational-video-interface/guardrails). The app's per-guardrail reactions live in `src/lib/guardrailActions.ts`.
 
 ### Config (`config/`)
 
@@ -273,7 +273,7 @@ Frontend configuration that tells the web app how to display and score the conve
 
 | Doc | Teaches you |
 |-----|------------|
-| [CONFIG.md](config/CONFIG.md) | Preset fields, and how config connects to the persona-owned data fetched via the Tavus API |
+| [CONFIG.md](config/CONFIG.md) | Preset fields, and how config connects to the PAL-owned data fetched via the Tavus API |
 
 ### API Proxy (`api/`)
 
@@ -289,7 +289,7 @@ CLI tools for setup, deployment, and validation.
 
 | Doc | Teaches you |
 |-----|------------|
-| [SCRIPTS.md](scripts/SCRIPTS.md) | Config validation (`validate`), env check (`check-env`), persona copy (`init`), and how they connect |
+| [SCRIPTS.md](scripts/SCRIPTS.md) | Config validation (`validate`), env check (`check-env`), PAL copy (`init`), and how they connect |
 
 ### Source Code (`src/`)
 
@@ -320,7 +320,7 @@ If you want to understand the system deeply enough to reconfigure it for a compl
 4. src/SRC.md             ← Frontend architecture (only if modifying the app)
 ```
 
-The persona itself (identity, objectives, guardrails, layers) is managed on Tavus — see [persona/README.md](persona/README.md) and the [Tavus persona docs](https://docs.tavus.io/sections/conversational-video-interface/persona/overview). Items 2-4 are needed only if you're changing the infrastructure or frontend code.
+The PAL itself (identity, objectives, guardrails, layers) is managed on Tavus — see [persona/README.md](persona/README.md) and the [Tavus PAL docs](https://docs.tavus.io/sections/conversational-video-interface/pal/overview). Items 2-4 are needed only if you're changing the infrastructure or frontend code.
 
 ## Environment Variables
 
