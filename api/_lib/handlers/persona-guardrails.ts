@@ -1,11 +1,8 @@
 /**
  * Handler: GET /api/persona/guardrails
- * Fetches guardrails from the Tavus API. A persona can reference guardrails two
- * ways, so we support both:
- *   - Legacy: `guardrails_id` (a single guardrail-set) →
- *     GET /v2/guardrails/{guardrails_id} → { data: [...] }
- *   - Current: `guardrail_ids` (an array of individual guardrails, often paired
- *     with `guardrail_tags`) → GET /v2/guardrails/{id} for each → one object each
+ * Fetches guardrails from the Tavus API. A persona references guardrails via
+ * `guardrail_ids` (an array of individual guardrails, often paired with
+ * `guardrail_tags`): GET /v2/guardrails/{id} for each, collected into `data`.
  *
  * Returns the raw guardrail definitions (name, prompt, modality).
  */
@@ -56,7 +53,7 @@ export async function personaGuardrails(req: RouteRequest): Promise<RouteRespons
   }
 
   try {
-    // Step 1: Get persona to find guardrails_id
+    // Step 1: Get persona to find its guardrail_ids
     const personaRes = await fetch(
       `${TAVUS_API_BASE}/v2/personas/${personaId}`,
       { headers: { "x-api-key": apiKey } }
@@ -69,29 +66,11 @@ export async function personaGuardrails(req: RouteRequest): Promise<RouteRespons
     }
 
     const persona = (await personaRes.json()) as {
-      guardrails_id?: string | null;
       guardrail_ids?: string[] | null;
     };
 
-    // Path 1 — legacy single guardrail-set id.
-    if (persona.guardrails_id) {
-      const guardrailsRes = await fetch(
-        `${TAVUS_API_BASE}/v2/guardrails/${persona.guardrails_id}`,
-        { headers: { "x-api-key": apiKey } }
-      );
-
-      if (!guardrailsRes.ok) {
-        const text = await guardrailsRes.text();
-        console.error("[persona/guardrails] Guardrails fetch failed:", guardrailsRes.status, text);
-        return { status: guardrailsRes.status, body: { error: text } };
-      }
-
-      const guardrailsData = (await guardrailsRes.json()) as { data?: TavusGuardrail[] };
-      return { status: 200, body: { data: guardrailsData.data ?? [] } };
-    }
-
-    // Path 2 — array of individual guardrail ids. Fetch each and drop any that
-    // fail so one bad id never blanks the whole column.
+    // Resolve the array of individual guardrail ids. Fetch each and drop any
+    // that fail so one bad id never blanks the whole column.
     const ids = persona.guardrail_ids ?? [];
     if (ids.length === 0) {
       return { status: 200, body: { data: [] } };
